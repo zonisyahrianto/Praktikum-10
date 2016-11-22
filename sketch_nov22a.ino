@@ -1,20 +1,44 @@
-void setup() {
+#include <math.h>
+void setup(){
   Serial.begin(9600);
-  Serial.println("========= Fungsi Matematika ===========");
-  Serial.print("cos(90) = ");      Serial.println(cos(90));
-  Serial.print("sin(45) = ");      Serial.println(sin(45));
-  Serial.print("tan(90) = ");      Serial.println(tan(90));
-  Serial.print("atan(90) = ");     Serial.println(atan(90));
-  Serial.print("atan2(90,10) = "); Serial.println(atan2(90,10));
-  Serial.print("sqrt(9) = ");      Serial.println(sqrt(9));
-  Serial.print("exp(9) = ");       Serial.println(exp(9));
-  Serial.print("log(100) = ");     Serial.println(log(100));
-  Serial.print("log10(100) = ");   Serial.println(log10(100));
-  Serial.print("pow(9,2) = ");     Serial.println(pow(9,2));
-  Serial.print("square(9) = ");    Serial.println(sqrt(9));
-  Serial.print("fabs(-1.5) = ");   Serial.println(fabs(-1.5));
-  Serial.print("fmod(1.2334,2) = ");Serial.println(fmod(1.2334,2));
 }
 
-void loop() {
+void loop()
+{
+  Serial.println("~~~~~~To find angle between hypotenusa and base of triangle~~~~~~");
+  Serial.println("\nBase?");
+  float x = getFloatFromSerialMonitor();
+  Serial.println(x);
+  Serial.println("Height?");
+  float y = getFloatFromSerialMonitor();
+  Serial.println(y);
+  Serial.println("Hypotenusa is : ");
+  Serial.println(sqrt(x*x+y*y));
+  Serial.println("~~~~~~~~~~~");
+  Serial.println("Angle is : ");
+  Serial.println(asin(y/(sqrt(x*x+y*y)))*(180/3.14));
+  Serial.println("~~~~~~~~~~~\n\n");
+}
+
+float getFloatFromSerialMonitor(){
+  char inData[20];
+  float f=0;
+  int x=0;
+  while(x<1){
+    String str;
+    if(Serial.available()){
+      delay(10);
+      int i=0;
+      while(Serial.available()>0){
+        char inByte = Serial.read();
+        str=str+inByte;
+        inData[i]=inByte;
+        i+=1;
+        x=2;
+      }
+      f = atof(inData);
+      memset(inData, 0, sizeof(inData));
+    }
   }
+  return f;
+}
